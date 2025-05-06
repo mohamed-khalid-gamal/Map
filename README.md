@@ -75,10 +75,11 @@ The goal is to minimize the **total travel time**.
 -  Clean and structured output format
 
 ---
-## 🙋‍♀️ Team Members : 
---- Rana Nasser
---- Ahmed Khaled
---- Mohamed Khaled
---- Mohamed Tamer
---- Mohamed Ameer
---- Mohamed Saad
+## 🙋‍♀️ Team Members
+- Rana Nasser  
+- Ahmed Khaled  
+- Mohamed Khaled  
+- Mohamed Tamer  
+- Mohamed Ameer  
+- Mohamed Saad
+
