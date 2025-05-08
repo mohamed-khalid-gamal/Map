@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MapRouting
 {
@@ -65,15 +66,57 @@ namespace MapRouting
         // walking speed constant
         const double WalkKph = 5.0;
 
-        static void Main(string[] args)
+        static void Main()
         {
-            if (args.Length < 2)
+            
+            while (true)
             {
-                Console.WriteLine("Usage: MapRouting.exe <mapFile> <queryFile>");
-                return;
-            }
-            var graph = Graph.LoadFromFile(args[0]);
+                Console.WriteLine("\n~~ Map App ~~\n" +
+                "[1] Sample Cases\n" +
+                "[2] Medium Cases\n" +
+                "[3] Long Cases\n" +
+                "[4] Bonus Cases\n" +
+                "[5] Quit\n");
+                int choice = int.Parse(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("Sample Cases!\n");
+                        Console.WriteLine("Case 1:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[1] Sample Cases\Input\map1.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Input\queries1.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Output\output1.txt");
+                        Console.WriteLine("Case 2:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[1] Sample Cases\Input\map2.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Input\queries2.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Output\output2.txt");
+                        Console.WriteLine("Case 3:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[1] Sample Cases\Input\map3.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Input\queries3.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Output\output3.txt");
+                        Console.WriteLine("Case 4:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[1] Sample Cases\Input\map4.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Input\queries4.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Output\output4.txt");
+                        Console.WriteLine("Case 5:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[1] Sample Cases\Input\map5.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Input\queries5.txt", @"..\..\..\TEST CASES\[1] Sample Cases\Output\output5.txt");
+                        break;
+                    case 2:
+                        Console.WriteLine("Medium Cases!\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[2] Medium Cases\Input\OLMap.txt", @"..\..\..\TEST CASES\[2] Medium Cases\Input\OLQueries.txt", @"..\..\..\TEST CASES\[2] Medium Cases\Output\OLOutput.txt");
+                        break;
+                    case 3:
+                        Console.WriteLine("Long Cases!\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[3] Large Cases\Input\SFMap.txt", @"..\..\..\TEST CASES\[3] Large Cases\Input\SFQueries.txt", @"..\..\..\TEST CASES\[3] Large Cases\Output\SFOutput.txt");
+                        break; 
+                    case 4:
+                        Console.WriteLine("Bonus Cases!\n");
+                        Console.WriteLine("Sample Bonus Case:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[4] BONUS Test Cases\[1] Sample Cases\Input\map1B.txt", @"..\..\..\TEST CASES\[4] BONUS Test Cases\[1] Sample Cases\Input\queries1B.txt", @"..\..\..\TEST CASES\[4] BONUS Test Cases\[1] Sample Cases\Output\output1.txt");
+                        Console.WriteLine("Medium Bonus Case:\n");
+                        CalculateFile(@"..\..\..\TEST CASES\[4] BONUS Test Cases\[2] Medium Cases\Input\OLMapB.txt", @"..\..\..\TEST CASES\[4] BONUS Test Cases\[2] Medium Cases\Input\OLQueries.txt", @"..\..\..\TEST CASES\[4] BONUS Test Cases\[2] Medium Cases\Output\OLOutput.txt");
+                        break;
+                    case 5:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("WRONG CHOICE, Try again!\n");
+                        break;
 
+                }
+            }
             // TODO: load queries, for each:
             // 1. Find startCandidates = all nodes with euclidDist(src, node) <= R/1000
             // 2. Find endCandidates similarly
@@ -82,6 +125,20 @@ namespace MapRouting
             //    – all road-edges as defined
             //    – from each end node, “walk” to dest.
             // 4. Reconstruct path & compute metrics
+        }
+        static void CalculateFile(string map_path, string query_path, string output_path)
+        {
+            Graph graph = Graph.LoadFromFile(map_path);
+            for (int i = 0; i < graph.Nodes.Count; i++)
+            {
+                Console.WriteLine("Hello! im node " + graph.Nodes[i].Id + " And my Coordinates are (X, Y): (" + graph.Nodes[i].X + "," + graph.Nodes[i].Y + ")\n");
+                Console.WriteLine("\tIm connected to: \n");
+                List<Edge> neighbors = graph.Nodes[i].Neighbors;
+                for (int j = 0; j < neighbors.Count; j++)
+                {
+                    Console.WriteLine("\t\t[" + neighbors[j].Target.Id + "] Speed: " + neighbors[j].SpeedKph + " Length: " + neighbors[j].LengthKm + "\n");
+                }
+            }
         }
 
         static double EuclidDistKm(double x1, double y1, double x2, double y2)
